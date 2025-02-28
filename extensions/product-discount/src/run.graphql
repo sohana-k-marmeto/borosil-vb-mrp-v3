@@ -1,0 +1,31 @@
+query RunInput {
+  cart {
+    lines {
+      id
+      quantity
+      cost {
+        compareAtAmountPerQuantity {
+          amount
+        }
+        amountPerQuantity {
+          amount
+        }
+      }
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          product {
+            title
+            hasAnyTag(tags: ["vb-metafield-product"])
+            metafield(
+              namespace: "custom"
+              key: "virtual_bundle_product_discount"
+            ) {
+              value
+            }
+          }
+        }
+      }
+    }
+  }
+}
