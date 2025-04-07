@@ -25,18 +25,12 @@ export function run(input) {
   lines.forEach((line) => {
     let sellingPrice = parseFloat(line?.cost?.amountPerQuantity?.amount) || 0;
     let compareAtPrice = parseFloat(line?.cost?.compareAtAmountPerQuantity?.amount) || 0;
-    let eligibleProduct = false;
     let discountPercentage = 0;
-    if (line.merchandise.__typename === "ProductVariant") {
-      discountPercentage = Number(line?.merchandise?.product?.metafield?.value) || 0;
-      eligibleProduct = line?.merchandise?.product?.hasAnyTag;
-    }
-  
+    discountPercentage = Number(line?.bundleDiscount?.value) * 100 ; 
     // Ensure valid values before applying discount
-    if (eligibleProduct && compareAtPrice > 0 && sellingPrice > 0 && discountPercentage > 0) {
+    if (compareAtPrice > 0 && sellingPrice > 0 && discountPercentage > 0) {
       // MRP Discount calculation
       let discountedSellingPriceForMRP = compareAtPrice - ((compareAtPrice * discountPercentage) / 100);
-
       let actualDiscount = 0;
       if (sellingPrice > discountedSellingPriceForMRP) {
         actualDiscount = ((sellingPrice - discountedSellingPriceForMRP) / sellingPrice) * 100;

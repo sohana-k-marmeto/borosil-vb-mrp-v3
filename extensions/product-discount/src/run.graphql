@@ -11,20 +11,8 @@ query RunInput {
           amount
         }
       }
-      merchandise {
-        __typename
-        ... on ProductVariant {
-          product {
-            title
-            hasAnyTag(tags: ["vb-metafield-product"])
-            metafield(
-              namespace: "custom"
-              key: "virtual_bundle_product_discount"
-            ) {
-              value
-            }
-          }
-        }
+      bundleDiscount:attribute (key: "_Bundle_discount") {
+        value
       }
     }
   }
